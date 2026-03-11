@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>郑琳琳 Lynn Zheng</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white: #FAFAF8; --off-white: #F2F1EE; --gray-100: #E8E7E3;
+  --gray-300: #C4C3BC; --gray-500: #8A8980; --gray-700: #4A4A45;
+  --ink: #232320; --gold: #B8A882; --gold-light: #ede6d3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--ink); overflow-x: hidden; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 52px; height: 64px;
+  background: rgba(250,250,248,0.95); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--gray-100);
+}
+.nav-home {
+  font-family: 'Playfair Display', serif; font-size: 17px; letter-spacing: 0.02em;
+  color: var(--ink); text-decoration: none; cursor: pointer;
+  display: flex; align-items: center; gap: 10px; transition: opacity 0.2s;
+  background: none; border: none;
+}
+.nav-home:hover { opacity: 0.6; }
+.nav-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+.nav-right { display: flex; gap: 6px; }
+.nav-btn {
+  font-size: 12px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--gray-700); padding: 8px 18px; border: 1px solid transparent; border-radius: 2px;
+  cursor: pointer; background: transparent; transition: all 0.18s; font-family: 'DM Sans', sans-serif;
+}
+.nav-btn:hover { color: var(--ink); background: var(--gray-100); }
+.nav-btn.active { color: var(--ink); border-color: var(--gray-700); background: var(--white); }
+
+/* PAGE SYSTEM */
+.page { display: none; min-height: 100vh; padding-top: 64px; animation: pagein 0.3s ease; }
+.page.active { display: block; }
+@keyframes pagein { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.fade-up { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
+.fade-up.visible { opacity: 1; transform: none; }
+
+/* HOME */
+.home-wrap { min-height: calc(100vh - 64px); display: flex; align-items: center; justify-content: center; }
+.home-left {
+  padding: 72px 48px; display: flex; flex-direction: column;
+  align-items: center; text-align: center; max-width: 640px; width: 100%;
+}
+.eyebrow {
+  font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--gray-300); margin-bottom: 28px;
+  display: flex; align-items: center; gap: 14px; justify-content: center;
+}
+.home-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 4vw, 54px); font-weight: 600;
+  line-height: 1.15; letter-spacing: -0.01em; margin-bottom: 10px;
+}
+.home-name-en {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 2.6vw, 32px); font-weight: 400;
+  color: var(--gray-500); letter-spacing: 0.05em; margin-bottom: 36px;
+}
+.home-slogan {
+  font-size: 15px; font-weight: 300; color: var(--gray-700); line-height: 1.8;
+  max-width: 400px; margin-bottom: 36px;
+  border-left: 2px solid var(--gold); padding-left: 18px; text-align: left;
+}
+.home-slogan small { font-size: 12px; color: var(--gray-300); letter-spacing: 0.04em; }
+.home-tags { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 44px; justify-content: center; }
+.tag {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.07em; padding: 6px 14px;
+  border: 1px solid var(--gray-300); color: var(--gray-700); border-radius: 2px;
+  transition: all 0.18s; cursor: default;
+}
+.tag:hover { background: var(--ink); color: var(--white); border-color: var(--ink); }
+.home-contacts { display: flex; flex-direction: column; gap: 12px; align-items: center; }
+.clink {
+  font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gray-500);
+  display: flex; align-items: center; gap: 10px; text-decoration: none; transition: color 0.18s;
+}
+.clink:hover { color: var(--ink); }
+
+/* SHARED PAGE HEADER */
+.page-hdr { padding: 52px 64px 40px; border-bottom: 1px solid var(--gray-100); }
+.page-hdr-ey {
+  font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--gray-300); margin-bottom: 12px;
+  display: flex; align-items: center; gap: 12px;
+}
+.page-hdr-ey::before { content:''; width:24px; height:1px; background:var(--gray-300); display:block; }
+.page-hdr h1 { font-family: 'Playfair Display', serif; font-size: clamp(26px, 3.5vw, 42px); font-weight: 600; line-height: 1.15; }
+.page-hdr h1 em { font-style: italic; color: var(--gray-500); }
+
+/* INTERNSHIP */
+.intern-cards { display: grid; grid-template-columns: repeat(3, 1fr); padding: 48px 64px; gap: 0; }
+.icard { border-right: 1px solid var(--gray-100); padding-right: 44px; display: flex; flex-direction: column; }
+.icard:first-child { padding-left: 0; }
+.icard:last-child { border-right: none; padding-right: 0; padding-left: 44px; }
+.icard:nth-child(2) { padding: 0 44px; }
+.icard-logo {
+  height: 84px; border: 1px solid var(--gray-100); border-radius: 3px;
+  background: var(--off-white); display: flex; flex-direction: column;
+  align-items: center; justify-content: center; margin-bottom: 28px; transition: border-color 0.2s;
+}
+.icard:hover .icard-logo { border-color: var(--gold); }
+.icard-logo-name { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 600; color: var(--ink); }
+.icard-logo-sub { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--gray-500); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 3px; }
+.icard-co { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+.icard-role { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 600; line-height: 1.25; margin-bottom: 6px; }
+.icard-period { font-size: 12px; color: var(--gray-500); font-family: 'DM Mono', monospace; }
+.icard-loc { font-size: 11px; color: var(--gray-300); margin-top: 2px; }
+.icard-meta { margin-bottom: 22px; }
+.icard-teaser { font-size: 13px; color: var(--gray-500); line-height: 1.65; margin-bottom: 20px; flex: 1; }
+.icard-btn {
+  display: flex; align-items: center; gap: 8px; width: 100%;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink); cursor: pointer; padding: 12px 0;
+  border: none; border-top: 1px solid var(--gray-100); background: none;
+  font-family: 'DM Sans', sans-serif; transition: gap 0.2s;
+}
+.icard-btn:hover { gap: 14px; }
+.icard-btn .arr { display: inline-block; transition: transform 0.22s; }
+.idetail { overflow: hidden; max-height: 0; transition: max-height 0.4s ease; border-top: 1px solid var(--gray-100); }
+.idetail.open { max-height: 700px; }
+.idetail-inner { display: grid; grid-template-columns: 200px 1fr; gap: 48px; padding: 40px 64px; align-items: start; }
+.idetail-metrics { display: flex; flex-direction: column; gap: 22px; }
+.dm-val { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 600; color: var(--ink); line-height: 1; }
+.dm-val.up { color: #4e7a4e; }
+.dm-lbl { font-size: 12px; color: var(--gray-500); margin-top: 4px; line-height: 1.4; }
+.dbullets { list-style: none; }
+.dbullets li { font-size: 13.5px; color: var(--gray-700); line-height: 1.7; padding: 10px 0; border-bottom: 1px solid var(--gray-100); display: flex; gap: 12px; }
+.dbullets li:last-child { border-bottom: none; }
+.dbullets li::before { content: '→'; color: var(--gold); flex-shrink: 0; font-size: 12px; margin-top: 4px; }
+
+/* CAMPUS */
+.campus-body { padding: 0 64px 64px; }
+.campus-mod { margin-top: 48px; }
+.mod-label {
+  font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 24px;
+  display: flex; align-items: center; gap: 14px;
+}
+.mod-label::after { content: ''; flex: 1; height: 1px; background: var(--gray-100); }
+.club-card { display: grid; grid-template-columns: 220px 1fr 160px; border: 1px solid var(--gray-100); border-radius: 4px; overflow: hidden; }
+.club-l { background: var(--off-white); padding: 36px 28px; display: flex; flex-direction: column; justify-content: center; border-right: 1px solid var(--gray-100); }
+.club-l .cl-period { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+.club-l .cl-org { font-size: 12px; color: var(--gray-500); line-height: 1.55; }
+.club-l .cl-role { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600; color: var(--ink); margin-top: 10px; line-height: 1.3; }
+.club-m { padding: 36px; }
+.club-m .cl-desc { font-size: 13.5px; color: var(--gray-700); line-height: 1.75; }
+.club-m .cl-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.ctag { font-size: 11px; padding: 5px 12px; border: 1px solid var(--gray-100); color: var(--gray-500); border-radius: 2px; }
+.club-r { padding: 28px; border-left: 1px solid var(--gray-100); background: var(--off-white); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center; }
+.cr-val { font-family: 'Playfair Display', serif; font-size: 34px; font-weight: 600; }
+.cr-lbl { font-size: 11px; color: var(--gray-500); letter-spacing: 0.08em; text-transform: uppercase; }
+.vol-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.vol-card { border: 1px solid var(--gray-100); border-radius: 4px; padding: 36px; transition: background 0.2s; }
+.vol-card:hover { background: var(--off-white); }
+.vol-icon { font-size: 30px; margin-bottom: 16px; }
+.vol-org { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+.vol-role { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 600; line-height: 1.3; margin-bottom: 12px; }
+.vol-desc { font-size: 13px; color: var(--gray-500); line-height: 1.7; }
+.vol-period { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--gray-300); margin-top: 16px; }
+
+/* HOBBY */
+.hobby-body { padding: 48px 64px 64px; }
+.hobby-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 900px; }
+.hcard {
+  border: 1px solid var(--gray-100); border-radius: 6px; overflow: hidden;
+  cursor: pointer; transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
+  background: var(--white); display: flex; flex-direction: column; min-height: 360px;
+}
+.hcard:hover { transform: translateY(-4px); box-shadow: 0 14px 44px rgba(0,0,0,0.09); border-color: var(--gold); }
+.hcard-top { padding: 36px 36px 20px; flex: 1; display: flex; flex-direction: column; }
+.hcard-icon { font-size: 36px; margin-bottom: 18px; }
+.hcard-lbl { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+.hcard-title { font-family: 'Playfair Display', serif; font-size: 23px; font-weight: 600; line-height: 1.25; margin-bottom: 12px; }
+.hcard-desc { font-size: 13px; color: var(--gray-500); line-height: 1.7; flex: 1; }
+.hcard-foot { padding: 14px 36px; border-top: 1px solid var(--gray-100); background: var(--off-white); display: flex; justify-content: space-between; align-items: center; }
+.hcard-cta { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-700); display: flex; align-items: center; gap: 8px; }
+.hcard-cta-arr { transition: transform 0.2s; display: inline-block; }
+.hcard:hover .hcard-cta-arr { transform: translateX(4px); }
+.hcard-tag { font-size: 11px; color: var(--gray-300); font-family: 'DM Mono', monospace; }
+
+/* OVERLAY */
+.overlay {
+  position: fixed; inset: 0; z-index: 300;
+  background: rgba(35,35,32,0.7); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.25s; padding: 24px;
+}
+.overlay.open { opacity: 1; pointer-events: all; }
+.overlay-panel {
+  background: var(--white); border-radius: 8px; max-width: 660px; width: 100%;
+  max-height: 82vh; overflow-y: auto; padding: 52px; position: relative;
+  transform: translateY(20px); transition: transform 0.25s;
+}
+.overlay.open .overlay-panel { transform: translateY(0); }
+.overlay-close {
+  position: absolute; top: 18px; right: 18px; width: 34px; height: 34px;
+  border-radius: 50%; border: 1px solid var(--gray-100); background: var(--off-white);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 15px; color: var(--gray-500); transition: all 0.18s;
+}
+.overlay-close:hover { background: var(--ink); color: var(--white); }
+.ov-icon { font-size: 38px; margin-bottom: 16px; }
+.ov-lbl { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+.ov-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 600; line-height: 1.2; margin-bottom: 20px; }
+.ov-body { font-size: 14px; color: var(--gray-700); line-height: 1.8; }
+.ov-placeholder {
+  margin-top: 24px; padding: 22px; border: 2px dashed var(--gray-100); border-radius: 4px;
+  text-align: center; color: var(--gray-300); font-size: 12px;
+  font-family: 'DM Mono', monospace; letter-spacing: 0.08em; line-height: 1.7;
+}
+
+/* RESPONSIVE */
+@media (max-width: 960px) {
+  nav { padding: 0 20px; }
+  .home-left { padding: 48px 24px; }
+  .page-hdr { padding: 36px 24px 28px; }
+  .intern-cards { grid-template-columns: 1fr; padding: 32px 24px; }
+  .icard { border-right: none; border-bottom: 1px solid var(--gray-100); padding: 0 0 40px !important; }
+  .idetail-inner { grid-template-columns: 1fr; gap: 24px; padding: 28px 24px; }
+  .campus-body { padding: 0 24px 48px; }
+  .club-card { grid-template-columns: 1fr; }
+  .club-r { border-left: none; border-top: 1px solid var(--gray-100); flex-direction: row; gap: 20px; }
+  .vol-grid { grid-template-columns: 1fr; }
+  .hobby-body { padding: 32px 24px 48px; }
+  .hobby-grid { grid-template-columns: 1fr; }
+  .overlay-panel { padding: 36px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <button class="nav-home" id="nav-logo" data-page="home">
+    <span class="nav-dot"></span>
+    关于我 <span style="font-weight:300;color:var(--gray-300);margin-left:2px">About Me</span>
+  </button>
+  <div class="nav-right">
+    <button class="nav-btn" id="nb-intern" data-page="intern">实习经历</button>
+    <button class="nav-btn" id="nb-campus" data-page="campus">校园经历</button>
+    <button class="nav-btn" id="nb-hobby"  data-page="hobby">爱好特长</button>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="home-wrap">
+    <div class="home-left">
+      <div class="eyebrow fade-up">Personal Profile</div>
+      <h1 class="home-name fade-up">你好，这里是郑琳琳</h1>
+      <div class="home-name-en fade-up">Hi, this is Lynn</div>
+      <p class="home-slogan fade-up">
+        本科就读于大连理工大学，主修翻译，辅修金融 <br> 研究生就读于香港大学，主修翻译
+      </p>
+      <div class="home-tags fade-up">
+        <span class="tag">5G冲浪者</span>
+        <span class="tag">运营</span>
+        <span class="tag">AI 探索者</span>
+        <span class="tag">INFP</span>
+      </div>
+      <div class="home-contacts fade-up">
+        <a href="mailto:ZhengLinlin.lynn@outlook.com" class="clink">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          ZhengLinlin.lynn@outlook.com
+        </a>
+        <a href="tel:+8618251564654" class="clink">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.5a16 16 0 0 0 5.9 5.9l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.93 16z"/></svg>
+          +86 18251564654
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INTERNSHIP -->
+<div class="page" id="page-intern">
+  <div class="page-hdr fade-up">
+    <div class="page-hdr-ey">实习经历</div>
+    <h1>每天都是三好实习生：好学好奇好认真</em></h1>
+  </div>
+  <div class="intern-cards fade-up">
+    <div class="icard">
+      <div class="icard-logo">
+        <div class="icard-logo-name">iQIYI</div>
+        <div class="icard-logo-sub">爱奇艺</div>
+      </div>
+      <div class="icard-meta">
+        <div class="icard-co">爱奇艺 · 重庆</div>
+        <div class="icard-role">海外 YouTube 频道运营</div>
+        <div class="icard-period">2024.12 — 2025.03</div>
+        <div class="icard-loc">📍 重庆</div>
+      </div>
+      <div class="icard-teaser">负责 iQIYI 台湾站和青春剧场两大官方频道运营，单视频观看量实现 5000% 增长，Q1 收入同比大幅提升，青春剧场进入平台2月收入 Top 10。</div>
+      <button class="icard-btn" data-detail="d-iqiyi">查看详情 <span class="arr">→</span></button>
+    </div>
+    <div class="icard">
+      <div class="icard-logo">
+        <div class="icard-logo-name">人人视频</div>
+        <div class="icard-logo-sub">RenRen Video</div>
+      </div>
+      <div class="icard-meta">
+        <div class="icard-co">人人视频 · 上海</div>
+        <div class="icard-role">海外社媒用户运营</div>
+        <div class="icard-period">2025.06 — 2025.10</div>
+        <div class="icard-loc">📍 上海</div>
+      </div>
+      <div class="icard-teaser">主导Telegram 社群运营（78,000+ 用户），Facebook 单月涨粉 1.4 万，全面提升海外用户留存与参与度。</div>
+      <button class="icard-btn" data-detail="d-renren">查看详情 <span class="arr">→</span></button>
+    </div>
+    <div class="icard">
+      <div class="icard-logo">
+        <div class="icard-logo-name">昆仑万维</div>
+        <div class="icard-logo-sub">Kunlun Tech</div>
+      </div>
+      <div class="icard-meta">
+        <div class="icard-co">昆仑万维 · 北京</div>
+        <div class="icard-role">视频内容运营</div>
+        <div class="icard-period">2024.07 — 2024.09</div>
+        <div class="icard-loc">📍 北京</div>
+      </div>
+      <div class="icard-teaser">负责中英字幕本地化翻译，完成 10+ 短剧全集制作，主导账号运营，粉丝量增至 3,000+。</div>
+      <button class="icard-btn" data-detail="d-kunlun">查看详情 <span class="arr">→</span></button>
+    </div>
+  </div>
+
+  <div class="idetail" id="d-iqiyi">
+    <div class="idetail-inner">
+      <div class="idetail-metrics">
+        <div><div class="dm-val up">5000%</div><div class="dm-lbl">单视频观看量增长<br>200+ → 100,000+</div></div>
+        <div><div class="dm-val up">+115%</div><div class="dm-lbl">台湾站 3月收入同比</div></div>
+        <div><div class="dm-val">Top 10</div><div class="dm-lbl">青春剧场进入平台<br>收入排行榜</div></div>
+      </div>
+      <ul class="dbullets">
+        <li>负责 iQIYI 台湾站与青春剧场两个官方 YouTube 频道全面升级，重构封面视觉版式与视频发布类型</li>
+        <li>台湾站 Q1 收入同比：2月 +15%、3月 +115%；青春剧场：2月 +127%、3月 +20%</li>
+        <li>每日复盘视频数据，每周深度分析 PCPM / CPM 变化原因，驱动运营策略持续迭代</li>
+        <li>青春剧场进入平台收入 Top 10，产出 10+ 单视频播放破万的爆款内容</li>
+        <li>从"数百播放"到"系列视频均破万"的跨越式增长，探索出可复用的完播率提升运营方法</li>
+      </ul>
+    </div>
+  </div>
+  <div class="idetail" id="d-renren">
+    <div class="idetail-inner">
+      <div class="idetail-metrics">
+        <div><div class="dm-val up">+1.4万</div><div class="dm-lbl">Facebook 单月净增粉丝</div></div>
+        <div><div class="dm-val up">78,000+</div><div class="dm-lbl">Telegram 三国社群总用户</div></div>
+        <div><div class="dm-val">3国</div><div class="dm-lbl">印尼 · 菲律宾 · 马来西亚</div></div>
+      </div>
+      <ul class="dbullets">
+        <li>策划并执行站内引流活动，结合时新影视内容与免费 VIP 激励策略，Facebook 单月涨粉 1.4 万</li>
+        <li>负责 Telegram 印尼、菲律宾、马来西亚三国用户运营，社群总规模达 78,000+ 用户</li>
+        <li>设计并落地多项用户增长活动，推动 3 个核心社群单群用户增长突破 10,000+</li>
+        <li>系统收集产品 Bug 与改进建议，协同产品与技术团队推动优化，提升用户留存率与满意度</li>
+      </ul>
+    </div>
+  </div>
+  <div class="idetail" id="d-kunlun">
+    <div class="idetail-inner">
+      <div class="idetail-metrics">
+        <div><div class="dm-val">10+</div><div class="dm-lbl">短剧字幕完成</div></div>
+        <div><div class="dm-val up">3,000+</div><div class="dm-lbl">账号粉丝量</div></div>
+      </div>
+      <ul class="dbullets">
+        <li>根据中文短剧原声调整转录文件，优化AI翻译，累计完成 10+ 部短剧全集制作</li>
+        <li>根据每部上新短剧撰写推文，以内容策略吸引海外用户，账号粉丝量增长至 3,000+</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- CAMPUS -->
+<div class="page" id="page-campus">
+  <div class="page-hdr fade-up">
+    <div class="page-hdr-ey"> 校园经历</div>
+    <h1>在凌水湖畔的四年：忙碌却充实</h1>
+  </div>
+  <div class="campus-body">
+    <div class="campus-mod fade-up">
+      <div class="mod-label">社团 · 学生工作</div>
+      <div class="club-card">
+        <div class="club-l">
+          <div class="cl-period">2021.09 — 2024.04</div>
+          <div class="cl-org">大连理工大学<br>融媒体中心</div>
+          <div class="cl-role">微博运营部<br>部长</div>
+        </div>
+        <div class="club-m">
+          <div class="cl-desc">主导融媒体中心微博账号的内容运营、用户运营与数据运营，统筹组织线上线下活动策划与执行，负责与其他高校及品牌的合作，带领团队完成新媒体矩阵建设。日常与粉丝私信交流，深度理解用户需求，推动账号持续活跃增长。</div>
+          <div class="cl-tags">
+            <span class="ctag">内容运营</span><span class="ctag">用户运营</span>
+            <span class="ctag">数据运营</span><span class="ctag">组织管理</span>
+            <span class="ctag">跨校合作</span><span class="ctag">品牌联动</span>
+          </div>
+        </div>
+        <div class="club-r">
+          <div class="cr-val">3年</div>
+          <div class="cr-lbl">从新手小白成长为负责人</div>
+        </div>
+      </div>
+    </div>
+    <div class="campus-mod fade-up">
+      <div class="mod-label">志愿者 · 公益服务</div>
+      <div class="vol-grid">
+        <div class="vol-card">
+          <div class="vol-icon">🌐</div>
+          <div class="vol-org">2024 夏季达沃斯</div>
+          <div class="vol-role">论坛方志愿者</div>
+          <div class="vol-desc">负责论坛方志愿者活动，为外宾提供语言协助与接待服务，协同团队确保大会各项程序顺利进行。</div>
+          <div class="vol-period">2024.06</div>
+        </div>
+        <div class="vol-card" style="border:2px dashed var(--gray-100);background:var(--off-white);cursor:default">
+          <div class="vol-icon">📚</div>
+          <div class="vol-org">“微光”线上志愿辅导</div>
+          <div class="vol-role">志愿者</div>
+          <div class="vol-desc">辅导本地小校学生。每周负责两次线上课程，结合自己的所学所能，带领学生成长。</div>
+          <div class="vol-period">2024.03-2024.06</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOBBY -->
+<div class="page" id="page-hobby">
+  <div class="page-hdr fade-up">
+    <div class="page-hdr-ey">爱好特长</div>
+    <h1>热爱学习新技能，不给自己设限</h1>
+  </div>
+  <div class="hobby-body">
+    <div class="hobby-grid fade-up">
+      <div class="hcard" id="hcard-editing">
+        <div class="hcard-top">
+          <div class="hcard-icon">🎬</div>
+          <div class="hcard-lbl">视频制作</div>
+          <div class="hcard-title">剪辑</div>
+          <div class="hcard-desc">熟练使用剪映进行短视频制作，结合运营经验挖掘视觉钩子，提升完播率。可在此展示剪辑作品。</div>
+        </div>
+        <div class="hcard-foot">
+          <span class="hcard-cta">查看作品 <span class="hcard-cta-arr">→</span></span>
+          <span class="hcard-tag">剪映</span>
+        </div>
+      </div>
+      <div class="hcard" id="hcard-ai">
+        <div class="hcard-top">
+          <div class="hcard-icon">🤖</div>
+          <div class="hcard-lbl">技术探索</div>
+          <div class="hcard-title">AI 探索</div>
+          <div class="hcard-desc">结合 Gemini 等 AI 工具探索Vibe Coding，将自身策划与技术想象融合，探索 AI 赋能的边界。</div>
+        </div>
+        <div class="hcard-foot">
+          <span class="hcard-cta">查看 Demo <span class="hcard-cta-arr">→</span></span>
+          <span class="hcard-tag">Gemini & Claude</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="mainOverlay">
+  <div class="overlay-panel">
+    <button class="overlay-close" id="overlayClose">✕</button>
+    <div class="ov-icon" id="ov-icon"></div>
+    <div class="ov-lbl" id="ov-lbl"></div>
+    <div class="ov-title" id="ov-title"></div>
+    <div class="ov-body" id="ov-body"></div>
+    <div id="ov-extra"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+
+  /* ── 页面切换 ── */
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+    document.querySelectorAll('.nav-btn').forEach(function(b){ b.classList.remove('active'); });
+    document.getElementById('page-' + name).classList.add('active');
+    var btn = document.getElementById('nb-' + name);
+    if (btn) btn.classList.add('active');
+    window.scrollTo(0, 0);
+    setTimeout(observeAll, 80);
+  }
+
+  document.getElementById('nav-logo').addEventListener('click', function(){ showPage('home'); });
+  document.getElementById('nb-intern').addEventListener('click', function(){ showPage('intern'); });
+  document.getElementById('nb-campus').addEventListener('click', function(){ showPage('campus'); });
+  document.getElementById('nb-hobby').addEventListener('click',  function(){ showPage('hobby'); });
+
+  /* ── Fade observer ── */
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, {threshold:0.07});
+
+  function observeAll(){
+    document.querySelectorAll('.fade-up').forEach(function(el){ obs.observe(el); });
+  }
+  observeAll();
+
+  setTimeout(function(){
+    document.querySelectorAll('#page-home .fade-up').forEach(function(el, i){
+      setTimeout(function(){ el.classList.add('visible'); }, i * 80);
+    });
+  }, 100);
+
+  /* ── 实习经历展开 ── */
+  function closeAllDetails(){
+    ['d-iqiyi','d-renren','d-kunlun'].forEach(function(id){
+      document.getElementById(id).classList.remove('open');
+    });
+    document.querySelectorAll('.icard-btn').forEach(function(b){
+      b.classList.remove('open');
+      b.innerHTML = '查看详情 <span class="arr">→</span>';
+    });
+  }
+
+  document.querySelectorAll('.icard-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var id = btn.getAttribute('data-detail');
+      var detail = document.getElementById(id);
+      var wasOpen = detail.classList.contains('open');
+      closeAllDetails();
+      if (!wasOpen) {
+        detail.classList.add('open');
+        btn.innerHTML = '收起详情 <span class="arr" style="display:inline-block;transform:rotate(90deg)">→</span>';
+      }
+    });
+  });
+
+  /* ── 爱好弹窗 ── */
+  var hobbyData = {
+    editing: {
+      icon: '🎬',
+      lbl: '视频制作',
+      title: '剪辑作品',
+      body: '熟练使用剪映进行短视频制作，具备字幕制作、节奏剪辑、色调调整等能力。',
+      link: 'https://xhslink.com/m/6RUtelnslJU',
+      linkText: '🎬  查看小红书主页作品  →'
+    },
+    ai: {
+      icon: '🤖',
+      lbl: 'AI 探索',
+      title: '用 AI 构建的小程序',
+      body: '结合 Gemini 等 AI 工具探索Vibe Coding，将自身策划与技术想象力融合，探索 AI 赋能的可能性边界。',
+      link: 'https://xhslink.com/m/6RUtelnslJU',
+      linkText: '查看零代码手搓游戏'
+    }
+  };
+
+  function openOverlay(key) {
+    var d = hobbyData[key];
+    document.getElementById('ov-icon').textContent = d.icon;
+    document.getElementById('ov-lbl').textContent  = d.lbl;
+    document.getElementById('ov-title').textContent = d.title;
+    document.getElementById('ov-body').textContent  = d.body;
+
+    var extra = document.getElementById('ov-extra');
+    extra.innerHTML = '';
+    if (d.link) {
+      var a = document.createElement('a');
+      a.href = d.link;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = d.linkText;
+      a.className = 'ov-link-btn';
+      extra.appendChild(a);
+    } else {
+      var ph = document.createElement('div');
+      ph.className = 'ov-placeholder';
+      ph.textContent = '🔗 在此嵌入你的小程序 Demo 链接或截图展示（可附上简短的功能说明）';
+      extra.appendChild(ph);
+    }
+
+    document.getElementById('mainOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeOverlay() {
+    document.getElementById('mainOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('hcard-editing').addEventListener('click', function(){ openOverlay('editing'); });
+  document.getElementById('hcard-ai').addEventListener('click',      function(){ openOverlay('ai'); });
+  document.getElementById('overlayClose').addEventListener('click', closeOverlay);
+    document.getElementById('mainOverlay').addEventListener('click', function(e){
+    if (e.target === this) closeOverlay();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closeOverlay();
+  });
+
+})();
+</script>
+</body>
+</html>
